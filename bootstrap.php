@@ -1,7 +1,7 @@
 <?php
 
 // URL of the site to test
-$site="http://mamchenkov.com";
+$site="http://mamchenkov.net";
 
 
 ////////////////////////////////////////////
