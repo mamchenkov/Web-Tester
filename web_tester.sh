@@ -9,4 +9,4 @@ then
 	export WEB_TESTER_SITE="$1"
 fi
 
-phpunit --debug
+phpunit 
