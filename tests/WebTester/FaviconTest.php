@@ -4,14 +4,9 @@ namespace WebTester;
 class FaviconTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * URL for tests to use
+	 * Shared response from the /favicon.ico request
 	 */
-	protected $url;
-
-	/**
-	 * Components of the URL
-	 */
-	protected $components;
+	protected $response;
 
 	/**
 	 * Instance of HTTP client
@@ -34,9 +29,16 @@ class FaviconTest extends \PHPUnit_Framework_TestCase {
 			$this->markTestSkipped("No site given in bootstrap.php file");
 		}
 		
-		$this->url = $config['site'];
-		$this->components = parse_url($this->url);
 		$this->client = new \GuzzleHttp\Client();
+		
+		$components = parse_url($config['site']);
+		$components['path'] = '/favicon.ico';
+		unset($components['query']);
+		unset($components['fragment']);
+
+		// Shared response
+		$this->response = $this->client->get(http_build_url($components));
+
 	}
 
 	/**
@@ -46,19 +48,14 @@ class FaviconTest extends \PHPUnit_Framework_TestCase {
 	 * since a missing favicon.ico request will usually fall into mod_rewrite
 	 * madness and a gadzillion SQL requests (in case of WordPress, for example)
 	 */
-	public function test_favicon() {
+	public function test_Favicon_ICO() {
 
-		$components = $this->components;
-		$components['path'] = '/favicon.ico';
-		unset($components['query']);
-		unset($components['fragment']);
-
-		$res = $this->client->get(http_build_url($components));
-		$statusCode = $res->getStatusCode();
+		// Status code of favicon.ico
+		$statusCode = $this->response->getStatusCode();
 		$this->assertEquals(200, $statusCode, "Favicon request did not return 200 status code");
 		
 		$allowedTypes = array('image/x-icon', 'image/vnd.microsoft.icon');
-		$contentType = $res->getHeader('content-type');
+		$contentType = $this->response->getHeader('content-type');
 		$this->assertContains($contentType, $allowedTypes, 'favicon.ico must be an icon image');
 	}
 	

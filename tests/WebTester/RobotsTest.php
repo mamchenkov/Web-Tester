@@ -4,14 +4,9 @@ namespace WebTester;
 class RobotsTest extends \PHPUnit_Framework_TestCase {
 
 	/**
-	 * URL for tests to use
+	 * Shared response from the /robots.txt request
 	 */
-	protected $url;
-
-	/**
-	 * Components of the URL
-	 */
-	protected $components;
+	protected $response;
 
 	/**
 	 * Instance of HTTP client
@@ -34,9 +29,16 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 			$this->markTestSkipped("No site given in bootstrap.php file");
 		}
 		
-		$this->url = $config['site'];
-		$this->components = parse_url($this->url);
 		$this->client = new \GuzzleHttp\Client();
+		
+		$components = parse_url($config['site']);
+		$components['path'] = '/robots.txt';
+		unset($components['query']);
+		unset($components['fragment']);
+
+		// Shared response
+		$this->response = $this->client->get(http_build_url($components));
+	
 	}
 
 	/**
@@ -45,24 +47,24 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 	 * Not having robots.txt file might have performance consequences,
 	 * as the request might end up in mod_rewrite and SQL matching madness.
 	 */
-	public function test_robotstxt() {
+	public function test_Robots_TXT() {
 		
-		$components = $this->components;
-		$components['path'] = '/robots.txt';
-		unset($components['query']);
-		unset($components['fragment']);
-
 		// Status code of robots.txt
-		$res = $this->client->get(http_build_url($components));
-		$statusCode = $res->getStatusCode();
+		$statusCode = $this->response->getStatusCode();
 		$this->assertEquals(200, $statusCode, "robots.txt request did not return 200 status code");
 
 		// Content type of robots.txt
-		$contentType = $res->getHeader('content-type');
+		$contentType = $this->response->getHeader('content-type');
 		$this->assertRegExp('#^text/plain#', $contentType, "Content type of robots.txt is not text/plain");
+	}
+
+	/**
+	 * Make sure we have XML sitemap
+	 */
+	public function test_XML_Sitemaps() {
 
 		// Parse content of robots.txt for XML sitemap URLs
-		$body = (string) $res->getBody();
+		$body = (string) $this->response->getBody();
 		$body = preg_split('/$\R?^/m', $body); // Thanks to: http://stackoverflow.com/a/7498886
 		$sitemaps = array();
 		foreach ($body as $line) {
