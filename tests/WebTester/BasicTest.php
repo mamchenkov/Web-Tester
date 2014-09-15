@@ -42,7 +42,7 @@ class BasicTest extends PHPUnit_Framework_TestCase {
 	public function test_urlStatusCode() {
 		$res = $this->client->get($this->url);
 		$statusCode = $res->getStatusCode();
-		$this->assertEquals(200, $statusCode);
+		$this->assertEquals(200, $statusCode, "URL [" . $this->url . "] didn't return 200 status code");
 	}
 
 	/**
@@ -68,11 +68,11 @@ class BasicTest extends PHPUnit_Framework_TestCase {
 
 		$res = $this->client->get(http_build_url($components), ['allow_redirects' => false]);
 		$statusCode = $res->getStatusCode();
-		$this->assertEquals(301, $statusCode);
+		$this->assertEquals(301, $statusCode, "The www/no-www redirect did not return 301 status code");
 		
 		$res = $this->client->get(http_build_url($components));
 		$statusCode = $res->getStatusCode();
-		$this->assertEquals(200, $statusCode);
+		$this->assertEquals(200, $statusCode, "The www/no-www redirect did not end up in 200 status code");
 
 	}
 

@@ -48,7 +48,7 @@ class FaviconTest extends PHPUnit_Framework_TestCase {
 
 		$res = $this->client->get(http_build_url($components));
 		$statusCode = $res->getStatusCode();
-		$this->assertEquals(200, $statusCode);
+		$this->assertEquals(200, $statusCode, "Favicon request did not return 200 status code");
 		
 		$allowedTypes = array('image/x-icon', 'image/vnd.microsoft.icon');
 		$contentType = $res->getHeader('content-type');

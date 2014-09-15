@@ -48,7 +48,7 @@ class RobotsTest extends PHPUnit_Framework_TestCase {
 		// Status code of robots.txt
 		$res = $this->client->get(http_build_url($components));
 		$statusCode = $res->getStatusCode();
-		$this->assertEquals(200, $statusCode);
+		$this->assertEquals(200, $statusCode, "robots.txt request did not return 200 status code");
 
 		// Content type of robots.txt
 		$contentType = $res->getHeader('content-type');
