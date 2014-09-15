@@ -1,8 +1,12 @@
 <?php
 
-// URL of the site to test
-$site="http://mamchenkov.net";
-
+// Configuration
+$config = array(
+	'site'        => 'http://mamchenkov.net',
+	'BasicTest'   => true,
+	'FaviconTest' => true,
+	'RobotsTest'  => true,
+);
 
 ////////////////////////////////////////////
 // Do not change anything below this line //

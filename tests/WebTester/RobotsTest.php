@@ -22,12 +22,17 @@ class RobotsTest extends PHPUnit_Framework_TestCase {
 	 * @return void
 	 */
 	protected function setUp() {
-		global $site;
+		global $config;
 		
-		if (empty($site)) {
+		if (empty($config[__CLASS__]) || !$config[__CLASS__]) {
+			$this->markTestSkipped("Skipping " . __CLASS__ . " due to configuration");
+		}
+	
+		if (empty($config['site'])) {
 			$this->markTestSkipped("No site given in bootstrap.php file");
 		}
-		$this->url = $site;
+		
+		$this->url = $config['site'];
 		$this->components = parse_url($this->url);
 		$this->client = new GuzzleHttp\Client();
 	}
