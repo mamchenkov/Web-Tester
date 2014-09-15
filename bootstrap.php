@@ -1,4 +1,5 @@
 <?php
+namespace WebTester;
 
 $configFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'web_tester.json';
 $config = loadConfigFromJson($configFile);

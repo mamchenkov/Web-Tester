@@ -1,5 +1,7 @@
 <?php
-class BasicTest extends PHPUnit_Framework_TestCase {
+namespace WebTester;
+
+class BasicTest extends \PHPUnit_Framework_TestCase {
 
 	/**
 	 * URL for tests to use
@@ -33,7 +35,7 @@ class BasicTest extends PHPUnit_Framework_TestCase {
 		}
 		$this->url = $config['site'];
 		$this->components = parse_url($this->url);
-		$this->client = new GuzzleHttp\Client();
+		$this->client = new \GuzzleHttp\Client();
 	}
 
 	/**

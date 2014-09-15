@@ -1,6 +1,6 @@
 {
     "site": "http://mamchenkov.net",
-    "BasicTest": true,
-    "FaviconTest": true,
-    "RobotsTest": true
+    "WebTester\\BasicTest": true,
+    "WebTester\\FaviconTest": true,
+    "WebTester\\RobotsTest": true
 }
