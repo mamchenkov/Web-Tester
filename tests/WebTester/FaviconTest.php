@@ -21,7 +21,7 @@ class FaviconTest extends \PHPUnit_Framework_TestCase {
 	protected function setUp() {
 		global $config;
 		
-		if (empty($config[__CLASS__]) || !$config[__CLASS__]) {
+		if (!empty($config['skip']) && in_array(__CLASS__, $config['skip'])) {
 			$this->markTestSkipped("Skipping " . __CLASS__ . " due to configuration");
 		}
 	
