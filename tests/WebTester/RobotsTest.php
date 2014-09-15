@@ -77,6 +77,8 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 
 		// Validate all found sitemap URLs
 		foreach ($sitemaps as $sitemap) {
+			// Must be a full URL http://www.sitemaps.org/protocol.html#submit_robots
+			$this->assertRegExp('#^http:#', $sitemap, "Sitemap URL [$sitemap] is not a full URL");
 			$res = $this->client->get($sitemap);
 			$statusCode = $res->getStatusCode();
 			$this->assertEquals(200, $statusCode, "Bad status code [$statusCode] returned for sitemap URL [$sitemap]");
