@@ -64,7 +64,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 	public function test_wwwRedirect() {
 
 		$components = $this->components;
-		$pos = strpos('www.', $components['host']);
+		$pos = strpos($components['host'], 'www.');
 		if (($pos === false) || ($pos > 0)) {
 			$components['host'] = 'www.' . $components['host'];
 		}
