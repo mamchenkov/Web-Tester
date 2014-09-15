@@ -23,8 +23,8 @@ $ composer install
 Usage
 -----
 
-# Edit the ```web_tester.json``` file.  At least change the site URL.
-# Execute: vendor/bin/phpunit
+1. Edit the ```web_tester.json``` file.  At least change the site URL.
+2. Execute: vendor/bin/phpunit
 
 TODO
 ----
