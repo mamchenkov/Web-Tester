@@ -1,12 +1,8 @@
 <?php
 
-// Configuration
-$config = array(
-	'site'        => 'http://mamchenkov.net',
-	'BasicTest'   => true,
-	'FaviconTest' => true,
-	'RobotsTest'  => true,
-);
+$configFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'web_tester.json';
+$config = loadConfigFromJson($configFile);
+
 
 ////////////////////////////////////////////
 // Do not change anything below this line //
@@ -14,6 +10,27 @@ $config = array(
 
 // Autoload composer libraries
 require_once 'vendor/autoload.php';
+
+/**
+ * Load configuration array from JSON file
+ * 
+ * @param string $file Path to JSON file
+ * @return array Associative array of settings
+ */
+function loadConfigFromJson($file) {
+	$result = array();
+	
+	if (file_exists($file) && is_readable($file)) {
+		$result = json_decode(file_get_contents($file), true);
+	}
+
+	// Make sure that we still return an empty array, if something broke
+	if (empty($result)) {
+		$result = array();
+	}
+
+	return $result;
+}
 
 // For those situations when PECL http extensions is not installed
 // Verbatim copy from: https://github.com/jakeasmith/http_build_url/blob/master/src/http_build_url.php
