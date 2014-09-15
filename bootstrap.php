@@ -1,9 +1,20 @@
 <?php
 namespace WebTester;
 
+define('WEB_TESTER_NAME', 'Web Tester');
+define('WEB_TESTER_VERSION', '1.0.0');
+define('WEB_TESTER_AUTHOR', 'Leonid Mamchenkov');
+
 $configFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'web_tester.json';
 $config = loadConfigFromJson($configFile);
 
+$envSite = getenv('WEB_TESTER_SITE');
+if (!empty($envSite)) {
+	$config['site'] = $envSite;
+}
+
+print WEB_TESTER_NAME . " " . WEB_TESTER_VERSION . " by " . WEB_TESTER_AUTHOR . "\n\n";
+print "Site: " . $config['site'] . "\n\n";
 
 ////////////////////////////////////////////
 // Do not change anything below this line //
