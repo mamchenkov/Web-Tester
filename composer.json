@@ -1,6 +1,31 @@
 {
+	"name": "mamchenkov/web-tester",
+	"description": "A collection of PHPUnit tests for public website sanity check",
+	"type": "library",
+	"keywords": [
+		"phpunit",
+		"testing"
+	],
+	"homepage": "https://github.com/mamchenkov/Web-Tester",
+	"license": "GPL-2.0",
+	"authors": [
+		{
+			"name": "Leonid Mamchenkov",
+			"email": "leonid@mamchenkov.net",
+			"role": "Developer"
+		}
+	],
+	"support": {
+		"issues": "https://github.com/mamchenkov/Web-Tester/issues"
+	},
 	"require": {
 		"phpunit/phpunit": "4.2.*",
 		"guzzlehttp/guzzle": "4.*"
+	},
+	"bin": [
+		"web_tester.sh"
+	],
+	"config": {
+		"bin-dir": "bin"
 	}
 }
