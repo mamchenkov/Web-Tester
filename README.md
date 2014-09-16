@@ -28,8 +28,31 @@ Install with Composer:
 Usage
 -----
 
-1. Edit the ```web_tester.json``` file.  At least change the site URL.
-2. Execute: vendor/bin/phpunit
+Run all tests with default options for a given domain:
+
+```
+$ vendor/bin/web_tester.sh http://www.domain.com
+```
+
+More control is available via ```web_tester.json``` file.  Here is an example:
+
+```
+{
+    "site": "http://www.google.com",
+    "timeout": "2",
+    "skip": [
+		"WebTester\\BasicTest",
+		"WebTester\\FaviconTest",
+		"WebTester\\RobotsTest"
+	]
+}
+```
+
+The URL of the site can be ommitted when it is present in the configuration file:
+
+```
+$ vendor/bin/web_tester.sh
+```
 
 TODO
 ----
