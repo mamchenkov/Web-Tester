@@ -29,7 +29,12 @@ print "Site: " . $config['site'] . "\n\n";
 ////////////////////////////////////////////
 
 // Autoload composer libraries
-require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
+if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor')) {
+	require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor' . DIRECTORY_SEPARATOR . 'autoload.php';
+}
+else {
+	require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
+}
 
 /**
  * Load configuration array from JSON file
