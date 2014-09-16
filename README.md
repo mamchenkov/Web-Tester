@@ -15,6 +15,18 @@ most common things aren't missed out when deploying web projects:
 Install
 -------
 
+Install with Composer:
+
+```
+{
+	require: {
+		"mamchenkov/web-tester": "dev-master"
+	}
+}
+```
+
+Install manually:
+
 ```
 $ git clone https://github.com/mamchenkov/Web-Tester.git
 $ composer install
