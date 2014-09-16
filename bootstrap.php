@@ -24,7 +24,7 @@ print "Site: " . $config['site'] . "\n\n";
 ////////////////////////////////////////////
 
 // Autoload composer libraries
-require_once 'vendor/autoload.php';
+require_once dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . 'autoload.php';
 
 /**
  * Load configuration array from JSON file
