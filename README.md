@@ -25,13 +25,6 @@ Install with Composer:
 }
 ```
 
-Install manually:
-
-```
-$ git clone https://github.com/mamchenkov/Web-Tester.git
-$ composer install
-```
-
 Usage
 -----
 
