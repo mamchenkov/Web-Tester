@@ -4,8 +4,21 @@ namespace WebTester;
 define('WEB_TESTER_NAME', 'Web Tester');
 define('WEB_TESTER_VERSION', '1.0.0');
 define('WEB_TESTER_AUTHOR', 'Leonid Mamchenkov');
+define('WEB_TESTER_CONFIG', 'web_tester.json');
+define('WEB_TESTER_TIMEOUT', 5);
 
-$configFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'web_tester.json';
+// Figure out if we are installed with composer
+$composerInstall = true;
+if (file_exists(dirname(__FILE__) . DIRECTORY_SEPARATOR . 'vendor')) {
+	$composerInstall = false;
+}
+
+// Default config file
+$configFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . WEB_TESTER_CONFIG;
+$localConfigFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . '..' . DIRECTORY_SEPARATOR . WEB_TESTER_CONFIG;
+if ($composerInstall && file_exists($localConfigFile)) {
+	$configFile = $localConfigFile;
+}
 $config = loadConfigFromJson($configFile);
 
 $envSite = getenv('WEB_TESTER_SITE');
@@ -15,7 +28,7 @@ if (!empty($envSite)) {
 
 // We do a lot of HTTP requests. Having a sane timeout default is useful.
 if (empty($config['timeout'])) {
-	$config['timeout'] = 5;
+	$config['timeout'] = WEB_TESTER_TIMEOUT;
 }
 
 print WEB_TESTER_NAME . " " . WEB_TESTER_VERSION . " by " . WEB_TESTER_AUTHOR . "\n\n";
