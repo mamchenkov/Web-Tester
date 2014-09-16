@@ -37,8 +37,13 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 		unset($components['fragment']);
 
 		// Shared response
-		$this->response = $this->client->get(http_build_url($components));
-	
+		$url = http_build_url($components);
+		try {
+			$this->response = $this->client->get($url);
+		} catch (\Exception $e) {
+			$this->fail("Failed fetching URL [$url] : " . $e->getMessage());
+		}
+
 	}
 
 	/**
@@ -79,8 +84,12 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 		foreach ($sitemaps as $sitemap) {
 			// Must be a full URL http://www.sitemaps.org/protocol.html#submit_robots
 			$this->assertRegExp('#^http:#', $sitemap, "Sitemap URL [$sitemap] is not a full URL");
-			$res = $this->client->get($sitemap);
-			$statusCode = $res->getStatusCode();
+			try {
+				$res = $this->client->get($sitemap);
+				$statusCode = $res->getStatusCode();
+			} catch (\Exception $e) {
+				$this->fail("Failed fetching URL [$sitemap] : " . $e->getMessage());
+			}
 			$this->assertEquals(200, $statusCode, "Bad status code [$statusCode] returned for sitemap URL [$sitemap]");
 		}
 

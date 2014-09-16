@@ -37,7 +37,12 @@ class FaviconTest extends \PHPUnit_Framework_TestCase {
 		unset($components['fragment']);
 
 		// Shared response
-		$this->response = $this->client->get(http_build_url($components));
+		$url = http_build_url($components);
+		try {
+			$this->response = $this->client->get($url);
+		} catch (\Exception $e) {
+			$this->fail("Failed fetching URL [$url] : " . $e->getMessage());
+		}
 
 	}
 
