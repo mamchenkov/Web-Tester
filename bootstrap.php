@@ -14,6 +14,9 @@ if (!empty($envSite)) {
 }
 
 print WEB_TESTER_NAME . " " . WEB_TESTER_VERSION . " by " . WEB_TESTER_AUTHOR . "\n\n";
+if (empty($config['site'])) {
+	die("No site given in configuration or command line ... existing.\n");
+}
 print "Site: " . $config['site'] . "\n\n";
 
 ////////////////////////////////////////////
