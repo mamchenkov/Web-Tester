@@ -19,6 +19,11 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 	protected $client;
 
 	/**
+	 * Timeout
+	 */
+	protected $timeout;
+	
+	/**
 	 * Setup the configuration
 	 *
 	 * @return void
@@ -36,6 +41,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 		$this->url = $config['site'];
 		$this->components = parse_url($this->url);
 		$this->client = new \GuzzleHttp\Client();
+		$this->timeout = $config['timeout'];
 	}
 
 	/**
@@ -47,10 +53,10 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 	 */
 	public function test_urlStatusCode() {
 		try {
-			$res = $this->client->get($this->url, ['timeout' => 5]);
+			$res = $this->client->get($this->url, ['timeout' => $this->timeout]);
 			$statusCode = $res->getStatusCode();
-		} catch (Exception $e) {
-			$this->fail($e->getRequest());
+		} catch (\Exception $e) {
+			$this->fail("Failed fetching URL [" . $this->url . "] : " . $e->getMessage());
 		}
 		$this->assertEquals(200, $statusCode, "URL [" . $this->url . "] didn't return 200 status code");
 	}
@@ -79,7 +85,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 		$wwwUrl = http_build_url($components);
 
 		try {
-			$res = $this->client->get($wwwUrl, ['allow_redirects' => false, 'timeout' => 5]);
+			$res = $this->client->get($wwwUrl, ['allow_redirects' => false, 'timeout' => $this->timeout]);
 			$statusCode = $res->getStatusCode();
 		} catch (\Exception $e) {
 			$this->fail("Failed fetching URL [$wwwUrl] : " . $e->getMessage());
@@ -88,7 +94,7 @@ class BasicTest extends \PHPUnit_Framework_TestCase {
 		$this->assertEquals(301, $statusCode, "The www/no-www redirect did not return 301 status code");
 		
 		try {
-			$res = $this->client->get($wwwUrl, ['timeout' => 5]);
+			$res = $this->client->get($wwwUrl, ['timeout' => $this->timeout]);
 			$statusCode = $res->getStatusCode();
 		} catch (\Exception $e) {
 			$this->fail("Failed fetching URL [$wwwUrl] : " . $e->getMessage());

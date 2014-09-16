@@ -1,5 +1,6 @@
 {
     "site": "http://mamchenkov.net",
+    "timeout": "5",
     /*
     "skip": [
 		"WebTester\\BasicTest",

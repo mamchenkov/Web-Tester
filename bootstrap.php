@@ -13,6 +13,11 @@ if (!empty($envSite)) {
 	$config['site'] = $envSite;
 }
 
+// We do a lot of HTTP requests. Having a sane timeout default is useful.
+if (empty($config['timeout'])) {
+	$config['timeout'] = 5;
+}
+
 print WEB_TESTER_NAME . " " . WEB_TESTER_VERSION . " by " . WEB_TESTER_AUTHOR . "\n\n";
 if (empty($config['site'])) {
 	die("No site given in configuration or command line ... existing.\n");

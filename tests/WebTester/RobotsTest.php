@@ -14,6 +14,11 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 	protected $client;
 
 	/**
+	 * Timeout
+	 */
+	protected $timeout;
+
+	/**
 	 * Setup the configuration
 	 *
 	 * @return void
@@ -30,6 +35,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 		}
 		
 		$this->client = new \GuzzleHttp\Client();
+		$this->timeout = $config['timeout'];
 		
 		$components = parse_url($config['site']);
 		$components['path'] = '/robots.txt';
@@ -39,7 +45,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 		// Shared response
 		$url = http_build_url($components);
 		try {
-			$this->response = $this->client->get($url);
+			$this->response = $this->client->get($url, ['timeout' => $this->timeout]);
 		} catch (\Exception $e) {
 			$this->fail("Failed fetching URL [$url] : " . $e->getMessage());
 		}
@@ -85,7 +91,7 @@ class RobotsTest extends \PHPUnit_Framework_TestCase {
 			// Must be a full URL http://www.sitemaps.org/protocol.html#submit_robots
 			$this->assertRegExp('#^http:#', $sitemap, "Sitemap URL [$sitemap] is not a full URL");
 			try {
-				$res = $this->client->get($sitemap);
+				$res = $this->client->get($sitemap, ['timeout' => $this->timeout]);
 				$statusCode = $res->getStatusCode();
 			} catch (\Exception $e) {
 				$this->fail("Failed fetching URL [$sitemap] : " . $e->getMessage());
